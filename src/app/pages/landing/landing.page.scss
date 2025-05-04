@@ -1,0 +1,40 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px;
+
+  ion-title {
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  .header-searchbar {
+    flex: 1;
+    padding: 0;
+    margin-left: 16px;
+  }
+}
+
+.breed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.breed-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  
+  .origin, .intelligence {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    ion-icon {
+      font-size: 16px;
+    }
+  }
+}

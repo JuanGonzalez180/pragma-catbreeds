@@ -1,0 +1,77 @@
+<form [formGroup]="formSearch">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <div class="header-container">
+        <ion-title>Catbreeds</ion-title>
+        
+          <ion-searchbar class="header-searchbar" 
+            placeholder="Buscar raza..." 
+            showCancelButton="focus"
+            animated
+            formControlName="searchTerm">
+          </ion-searchbar>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <div class="header-container">
+          <ion-title>Catbreeds</ion-title>
+          
+            <ion-searchbar class="header-searchbar" 
+              placeholder="Buscar raza..." 
+              showCancelButton="focus"
+              animated
+              formControlName="searchTerm">
+            </ion-searchbar>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-text color="danger" *ngIf="error" class="ion-text-center ion-padding">
+      <p>{{ error }}</p>
+    </ion-text>
+
+    <div *ngIf="loading" class="ion-padding ion-text-center">
+      <ion-spinner></ion-spinner>
+      <p>Cargando razas de gatos...</p>
+    </div>
+
+    <ion-grid *ngIf="!loading && !error">
+      <ion-row>
+        <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let breed of breeds">
+          <ion-card (click)="goToDetail(breed)">
+            <ion-card-header>
+              <div class="breed-header">
+                <ion-card-title>{{ breed.name }}</ion-card-title>
+                <ion-button fill="clear" size="small">Más...</ion-button>
+              </div>
+            </ion-card-header>
+            
+            <ion-img [src]="breed.image?.url || 'assets/cat-placeholder.png'" 
+                    [alt]="'Imagen de ' + breed.name"></ion-img>
+            
+            <ion-card-content>
+              <div class="breed-footer">
+                <div class="origin">
+                  <ion-icon name="location-outline"></ion-icon>
+                  País de origen: {{ breed.origin }}
+                </div>
+                <div class="intelligence">
+                  <ion-icon name="bulb-outline"></ion-icon>
+                  Inteligencia: {{ breed.intelligence }}/5
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div *ngIf="!loading && !error && breeds.length === 0" class="ion-padding ion-text-center">
+      <p>No se encontraron razas que coincidan con tu búsqueda.</p>
+    </div>
+  </ion-content>
+</form>
