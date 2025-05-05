@@ -108,7 +108,8 @@ ionic serve
 La aplicación estará disponible en `http://localhost:8100`.
 
 Scripts Disponibles
-- `npm start`: Ejecuta la aplicación en modo desarrollo.
+- `npm start` o `ionic serve`: Ejecuta la aplicación en modo desarrollo.
+  `npm start` aplica `ng serve`, estará disponible en `http://localhost:4200`
 - `npm run build`: Compila la aplicación para producción.
 
 Notas Adicionales
