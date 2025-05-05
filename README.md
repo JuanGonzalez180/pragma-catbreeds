@@ -79,3 +79,59 @@ El proyecto sigue los principios de Atomic Design, organizando los componentes e
 - Manejo de errores con mensajes amigables
 - Diseño responsive para diferentes tamaños de pantalla
 - Animaciones en transiciones
+
+## Instalación y Ejecución
+
+### Prerrequisitos
+- Node.js (v18 o superior)
+- npm (v9 o superior)
+- Ionic CLI
+
+### Pasos de Instalación
+
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/JuanGonzalez180/pragma-catbreeds.git
+cd pragma-catbreeds
+```
+
+2. Instalar dependencias:
+```bash
+npm install
+```
+
+3. Ejecutar la aplicación:
+```bash
+ionic serve 
+```
+
+La aplicación estará disponible en ` `URL_ADDRESS:8100`.
+
+Scripts Disponibles
+- `npm start`: Ejecuta la aplicación en modo desarrollo.
+- `npm run build`: Compila la aplicación para producción.
+
+Notas Adicionales
+- La aplicación utiliza la API pública TheCatAPI para obtener información de razas de gatos.
+- Asegúrate de tener una conexión a internet para cargar las imágenes de las razas.
+- La aplicación está optimizada para funcionar en dispositivos móviles, pero también puede ser visualizada en navegadores web.
+
+Extructura del Proyecto
+```
+pragma-catbreeds/
+src/
+├── app/
+│   ├── models/
+│   │   ├── cats/
+│   │   └── errors/
+│   ├── pages/
+│   │   ├── landing/
+│   │   ├── detail/
+│   │   └── splash/
+│   ├── shared/
+│   │   ├── atoms/
+│   │   └── molecules/
+│   └── utils/
+├── assets/
+├── environments/
+└── theme/
