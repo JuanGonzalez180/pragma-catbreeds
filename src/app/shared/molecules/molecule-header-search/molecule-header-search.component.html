@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup">
+  <ion-toolbar>
+    <div class="molecule-header__container">
+      <ion-title class="molecule-header__title">{{ title }}</ion-title>
+      <ion-searchbar class="molecule-header__searchbar molecule-header__searchbar--animated" 
+        [placeholder]="placeholder" 
+        showCancelButton="focus"
+        animated
+        [formControlName]="controlName">
+      </ion-searchbar>
+    </div>
+  </ion-toolbar>
+</form>

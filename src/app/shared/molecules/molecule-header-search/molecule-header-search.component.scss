@@ -1,0 +1,27 @@
+.molecule-header {
+  &__container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  &__title {
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  &__searchbar {
+    flex: 1;
+    padding: 0;
+    margin-left: 16px;
+
+    &--focused {
+      --background: var(--ion-color-light);
+    }
+
+    &--animated {
+      transition: all 0.3s ease;
+    }
+  }
+}

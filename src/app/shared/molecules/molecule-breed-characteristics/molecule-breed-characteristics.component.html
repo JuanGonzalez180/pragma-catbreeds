@@ -1,0 +1,23 @@
+<ion-card>
+  <ion-card-header *ngIf="title">
+    <ion-card-title>{{ title }}</ion-card-title>
+  </ion-card-header>
+  
+  <ion-list>
+    <ion-item *ngFor="let characteristic of characteristics">
+      <ion-label>
+        <h3>{{ characteristic.label }}</h3>
+        <p *ngIf="characteristic.type === 'text'">{{ characteristic.value }}</p>
+        <p *ngIf="characteristic.type === 'stars'">
+          <ion-icon name="star" *ngFor="let star of getNumberToArray(characteristic.valueNumber)"></ion-icon>
+          <ion-text color="medium" *ngIf="characteristic.valueNumber"> ({{ characteristic.valueNumber }}/{{ characteristic.maxValue }})</ion-text>
+        </p>
+        <p *ngIf="characteristic.type === 'bulbs'">
+          <ion-icon name="bulb" *ngFor="let bulb of getNumberToArray(characteristic.valueNumber)"></ion-icon>
+          <ion-icon name="bulb-outline" *ngFor="let bulb of getNumberToArray((characteristic.maxValue || 5) - (characteristic.valueNumber || 0))"></ion-icon>
+          <ion-text color="medium" *ngIf="characteristic.valueNumber"> ({{ characteristic.valueNumber }}/{{ characteristic.maxValue }})</ion-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-card>

@@ -1,0 +1,34 @@
+<ion-card>
+  <ion-card-header (click)="onCardClick()">
+    <div class="molecule-card__header">
+      <ion-card-title>{{ breed.name }}</ion-card-title>
+      <ion-button fill="clear" size="small">Más...</ion-button>
+    </div>
+  </ion-card-header>
+  
+  <div [ngClass]="{'molecule-card__image-container': isExpanded}">
+    <ion-img 
+      [src]="breed.image?.url || 'assets/cat-placeholder.png'" 
+      [alt]="'Imagen de ' + breed.name"
+      [ngClass]="{'molecule-card__image': isExpanded}"
+      (click)="onCardClick()">
+    </ion-img>
+    <app-atom-expand-button 
+      *ngIf="isExpanded"
+      (expand)="onCardImageClick()">
+    </app-atom-expand-button>
+  </div>
+  
+  <ion-card-content (click)="onCardClick()">
+    <div class="molecule-card__footer">
+      <div class="molecule-card__info molecule-card__info--origin">
+        <ion-icon name="location-outline"></ion-icon>
+        País de origen: {{ breed.origin }}
+      </div>
+      <div class="molecule-card__info molecule-card__info--intelligence">
+        <ion-icon name="bulb-outline"></ion-icon>
+        Inteligencia: {{ breed.intelligence }}/5
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>

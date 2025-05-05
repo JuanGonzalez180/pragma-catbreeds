@@ -8,25 +8,23 @@ import {
   IonButtons,
   IonBackButton,
   IonText,
-  IonSpinner,
   IonImg,
   IonCard,
   IonCardHeader,
   IonCardContent,
   IonCardTitle,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonIcon, 
-  IonModal,
-  IonButton, 
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { CatBreed } from '@models/cats/cat.model';
 import { ActivatedRoute } from '@angular/router';
 import { CatService } from '@models/cats/cat.service';
 import { CatStateService } from '@models/cats/cat-state.service';
+import { AtomLoadingComponent } from '@shared/atoms/atom-loading/atom-loading.component';
+import { MoleculeImageModalComponent } from '@shared/molecules/molecule-image-modal/molecule-image-modal.component';
+import { IBreedCharacteristic } from '@shared/molecules/molecule-breed-characteristics/molecule-breed-characteristics.model';
+import { MoleculeBreedCharacteristicsComponent } from '@shared/molecules/molecule-breed-characteristics/molecule-breed-characteristics.component';
+import { AtomExpandButtonComponent } from '@shared/atoms/atom-expand-button/atom-expand-button.component';
 
 @Component({
   selector: 'app-detail',
@@ -41,20 +39,17 @@ import { CatStateService } from '@models/cats/cat-state.service';
     IonButtons,
     IonBackButton,
     IonText,
-    IonSpinner,
     IonImg,
     IonCard,
     IonCardHeader,
     IonCardContent,
     IonCardTitle,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonIcon,
-    IonModal,
-    IonButton,
     CommonModule, 
     FormsModule,
+    AtomLoadingComponent,
+    AtomExpandButtonComponent,
+    MoleculeImageModalComponent,
+    MoleculeBreedCharacteristicsComponent,
   ]
 })
 export class DetailPage implements OnInit {
@@ -63,7 +58,9 @@ export class DetailPage implements OnInit {
   loading: boolean = true;
   error: string = '';
   image: string = '';
-  @ViewChild('modal') modal!: IonModal;
+  breedCharacteristics: IBreedCharacteristic[] = [];
+  
+  @ViewChild('imageModal') imageModal!: MoleculeImageModalComponent;
   
   constructor(
     private readonly route: ActivatedRoute,
@@ -72,6 +69,10 @@ export class DetailPage implements OnInit {
     private readonly navCtrl: NavController
   ) { }
 
+  /**
+   * Initializes the component by getting the breed ID from route params
+   * and loading the breed details if a valid ID is present
+   */
   ngOnInit() {
     this.breedId = this.route.snapshot.paramMap.get('id') ?? '';
     const selectedBreed = this.catStateService.getSelectedBreed();
@@ -88,12 +89,17 @@ export class DetailPage implements OnInit {
     }
   }
 
+  /**
+   * Loads the breed details from the cat service using the breed ID
+   * Updates the component state with the fetched data
+   */
   loadBreedDetails() {
     this.loading = true;
     this.catService.getBreedById(this.breedId).subscribe({
       next: (data) => {
         this.breed = data;
         this.loading = false;
+        this.loadingCharacteristics();
       },
       error: (err) => {
         console.error('Error fetching breed details:', err);
@@ -103,15 +109,66 @@ export class DetailPage implements OnInit {
     });
   }
 
+  /**
+   * Navigates back to the previous page
+   */
   goBack() {
     this.navCtrl.back();
   }
 
+  /**
+   * Converts a number to an array of that length
+   * Used for displaying rating stars/icons
+   * @param level - The number to convert to array
+   * @returns An array filled with zeros of the specified length
+   */
   getNumberToArray(level: number | undefined): number[] {
     return Array(level).fill(0);
   }
 
+  /**
+   * Opens the image modal to display the breed image in full size
+   */
   async openImageModal() {
-    await this.modal.present();
+    this.imageModal.openModal();
+  }
+
+  /**
+   * Loads the breed characteristics into the component state
+   * Creates an array of characteristic objects with labels and values
+   */
+  loadingCharacteristics(){
+    this.breedCharacteristics = [];
+    if (!this.breed) return;
+
+    this.breedCharacteristics = [
+      {
+        label: 'País de origen',
+        value: this.breed.origin,
+        type: 'text'
+      },
+      {
+        label: 'Temperamento',
+        value: this.breed.temperament,
+        type: 'text'
+      },
+      {
+        label: 'Tiempo de vida',
+        value: `${this.breed.life_span} años`,
+        type: 'text'
+      },
+      {
+        label: 'Adaptabilidad',
+        valueNumber: this.breed.adaptability ?? 0,
+        type: 'stars',
+        maxValue: 5
+      },
+      {
+        label: 'Inteligencia',
+        valueNumber: this.breed.intelligence,
+        type: 'bulbs',
+        maxValue: 5
+      }
+    ]
   }
 }

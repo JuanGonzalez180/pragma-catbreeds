@@ -1,1 +1,81 @@
-# pragma-catbreeds
+# Catbreeds App
+
+## Descripción
+Aplicación móvil desarrollada con Ionic/Angular que permite explorar y conocer diferentes razas de gatos, utilizando la API pública TheCatAPI.
+
+## Características Principales
+- Búsqueda de razas de gatos
+- Vista detallada de cada raza
+- Visualización de imágenes en modo expandido
+- Características detalladas de cada raza incluyendo:
+  - Adaptabilidad
+  - Inteligencia
+  - País de origen
+  - Temperamento
+  - Tiempo de vida
+
+## Arquitectura
+
+### Atomic Design
+El proyecto sigue los principios de Atomic Design, organizando los componentes en:
+
+#### Átomos
+- `AtomLoadingComponent`: Componente de carga con spinner
+- `AtomExpandButtonComponent`: Botón para expandir imágenes
+
+#### Moléculas
+- `MoleculeCardCatComponent`: Tarjeta de información de raza
+- `MoleculeBreedCharacteristicsComponent`: Características de la raza
+- `MoleculeHeaderSearchComponent`: Barra de búsqueda
+- `MoleculeImageModalComponent`: Modal para visualización de imágenes
+
+### Servicios
+- `CatService`: Manejo de peticiones a TheCatAPI
+- `CatStateService`: Gestión del estado de la aplicación usando signals
+
+### Utilidades
+- `ErrorUtil`: Manejo centralizado de errores
+- `HeaderUtil`: Configuración de headers HTTP
+
+## Tecnologías
+- Angular 19
+- Ionic 8
+- RxJS
+- TheCatAPI
+
+## Características Técnicas
+- Componentes Standalone
+- Signals para manejo de estado
+- Manejo de errores centralizado
+- Interfaces tipadas
+- Diseño responsive
+- Lazy loading de módulos
+- Gestión de estado con servicios
+- Metodología BEM (Block Element Modifier)
+  - Estructura clara y consistente en los estilos
+  - Nomenclatura específica para bloques, elementos y modificadores
+  - Mejor mantenibilidad y escalabilidad del código CSS
+  - Implementado en:
+    - Átomos: AtomExpandButton, AtomLoading
+    - Moléculas: MoleculeCardCat, MoleculeHeaderSearch, MoleculeImageModal, MoleculeBreedCharacteristics
+    - Páginas: Landing, Detail, Splash
+
+## Funcionalidades Principales
+
+### Landing Page
+- Listado de razas de gatos
+- Búsqueda en tiempo real
+- Vista en grid con opción de expandir/contraer tarjetas
+- Navegación a detalles
+
+### Detail Page
+- Información detallada de la raza
+- Imagen expandible
+- Características mostradas con indicadores visuales
+- Sistema de puntuación con estrellas y bombillas
+
+## Características de UX/UI
+- Feedback visual durante cargas
+- Manejo de errores con mensajes amigables
+- Diseño responsive para diferentes tamaños de pantalla
+- Animaciones en transiciones

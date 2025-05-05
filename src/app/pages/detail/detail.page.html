@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ng-template #headerDetail>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/landing"></ion-back-button>
@@ -6,36 +6,37 @@
     <ion-title *ngIf="breed">{{ breed.name }}</ion-title>
     <ion-title *ngIf="!breed && !error">Cargando...</ion-title>
   </ion-toolbar>
-  <div class="header-image-container" *ngIf="breed && !loading" (click)="openImageModal()">
+  <div class="detail__header-image" 
+    *ngIf="breed && !loading">
     <ion-img [src]="image || 'assets/cat.svg'"
       [alt]="'Imagen de ' + breed.name"
-      class="breed-image">
+      class="detail__image"
+      (click)="openImageModal()">
     </ion-img>
+    <app-atom-expand-button (expand)="openImageModal()"></app-atom-expand-button>
   </div>
+</ng-template>
+
+<ion-header [translucent]="true">
+  <ng-container *ngTemplateOutlet="headerDetail"></ng-container>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/landing"></ion-back-button>
-      </ion-buttons>
-      <ion-title *ngIf="breed">{{ breed.name }}</ion-title>
-      <ion-title *ngIf="!breed && !error">Cargando...</ion-title>
-    </ion-toolbar>
+    <ng-container *ngTemplateOutlet="headerDetail"></ng-container>
   </ion-header>
   
   <ion-text color="danger" *ngIf="error" class="ion-text-center ion-padding">
     <p>{{ error }}</p>
   </ion-text>
 
-  <div *ngIf="loading" class="ion-padding ion-text-center">
-    <ion-spinner></ion-spinner>
-    <p>Cargando detalles...</p>
-  </div>
+  <app-atom-loading 
+    *ngIf="loading" 
+    message="Cargando detalles...">
+  </app-atom-loading>
 
-  <div *ngIf="breed && !loading" class="breed-detail">
-    <div class="breed-info">
+  <div *ngIf="breed && !loading" class="detail">
+    <div class="detail__content">
       <ion-card>
         <ion-card-header>
           <ion-card-title>Descripción</ion-card-title>
@@ -45,74 +46,18 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Características</ion-card-title>
-        </ion-card-header>
-        
-        <ion-list>
-          <ion-item>
-            <ion-label>
-              <h3>País de origen</h3>
-              <p>{{ breed.origin }}</p>
-            </ion-label>
-          </ion-item>
-          
-          <ion-item>
-            <ion-label>
-              <h3>Temperamento</h3>
-              <p>{{ breed.temperament }}</p>
-            </ion-label>
-          </ion-item>
-          
-          <ion-item>
-            <ion-label>
-              <h3>Tiempo de vida</h3>
-              <p>{{ breed.life_span }} años</p>
-            </ion-label>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>
-              <h3>Adaptabilidad</h3>
-              <p>
-                <ion-icon name="star" *ngFor="let star of getNumberToArray(breed.adaptability)"></ion-icon>
-                <ion-text color="medium" *ngIf="breed.adaptability"> ({{ breed.adaptability }}/5)</ion-text>
-              </p>
-            </ion-label>
-          </ion-item>
-          
-          <ion-item>
-            <ion-label>
-              <h3>Inteligencia</h3>
-              <p>
-                <ion-icon name="bulb" *ngFor="let star of getNumberToArray(breed.intelligence)"></ion-icon>
-                <ion-icon name="bulb-outline" *ngFor="let star of getNumberToArray(5 - breed.intelligence)"></ion-icon>
-                <ion-text color="medium" *ngIf="breed.intelligence"> ({{ breed.intelligence }}/5)</ion-text>
-              </p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card>
+      <app-molecule-breed-characteristics
+        [title]="'Características'"
+        [characteristics]="breedCharacteristics">
+      </app-molecule-breed-characteristics>
     </div>
   </div>
 
 </ion-content>
 
-<ion-modal #modal trigger="open-modal">
-  <ng-template>
-    <ion-content class="modal-content">
-      <ion-toolbar>
-        <ion-title>{{ breed?.name }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-      <div class="modal-image-container">
-        <ion-img [src]="image || 'assets/cat.svg'" 
-                 [alt]="'Imagen de ' + breed?.name"
-                 class="modal-image"></ion-img>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
+<app-molecule-image-modal
+  #imageModal
+  [title]="breed?.name || ''"
+  [imageUrl]="image || 'assets/cat.svg'"
+  [imageAlt]="'Imagen de ' + breed?.name">
+</app-molecule-image-modal>
