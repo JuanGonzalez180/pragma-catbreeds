@@ -105,7 +105,7 @@ npm install
 ionic serve 
 ```
 
-La aplicación estará disponible en ` `URL_ADDRESS:8100`.
+La aplicación estará disponible en `http://localhost:8100`.
 
 Scripts Disponibles
 - `npm start`: Ejecuta la aplicación en modo desarrollo.
